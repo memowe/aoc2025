@@ -1,0 +1,14 @@
+name: Build
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: haskell/actions/setup@v2
+        with:
+          ghc-version: '9.12.2'
+      - run: cabal build --only-dependencies
+      - run: cabal build
