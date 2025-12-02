@@ -1,9 +1,9 @@
-name: Build
+name: Build and Test
 
 on: [push, workflow_dispatch]
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -12,3 +12,4 @@ jobs:
           ghc-version: '9.6.7'
       - run: cabal build --only-dependencies
       - run: cabal build
+      - run: cabal test

@@ -1,5 +1,6 @@
 module Day02GiftShop where
 
+import Days
 import Data.Char
 import Text.ParserCombinators.ReadP
 import Control.Monad
@@ -28,6 +29,9 @@ invalid2 = match multiPart . show
 candidates :: String -> [ID]
 candidates = concatMap (uncurry enumFromTo) . getRanges . read
 
-solve_02_1, solve_02_2 :: String -> Int
-solve_02_1 = sum . filter invalid1 . candidates
-solve_02_2 = sum . filter invalid2 . candidates
+solve_1, solve_2 :: String -> Int
+solve_1 = sum . filter invalid1 . candidates
+solve_2 = sum . filter invalid2 . candidates
+
+day :: Day
+day = Day 2 "Gift Shop" (show.solve_1) (show.solve_2)

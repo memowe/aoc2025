@@ -1,4 +1,4 @@
-# My [Advent of Code 2025](https://adventofcode.com/2025) solutions &nbsp; &nbsp; [![Build](https://github.com/memowe/aoc2025/actions/workflows/build.yml/badge.svg)](https://github.com/memowe/aoc2025/actions/workflows/build.yml)
+# My [Advent of Code 2025](https://adventofcode.com/2025) solutions &nbsp; &nbsp; [![Build and Test](https://github.com/memowe/aoc2025/actions/workflows/build_test.yml/badge.svg)](https://github.com/memowe/aoc2025/actions/workflows/build_test.yml)
 
 Written in Haskell. Example:
 
@@ -7,9 +7,11 @@ $ cabal repl
 [...]
 λ :m + Day01SecretEntrance
 λ input <- readFile "input_01.txt"
-λ solve_01_1 input
+λ solve_1 input
 1**3
 ```
+
+[Tests](test) check correct behaviour on the example input given by the website, not the full puzzle input (as [requested](https://adventofcode.com/2025/about) by the author).
 
 ## Author and license
 

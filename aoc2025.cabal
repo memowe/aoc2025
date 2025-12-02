@@ -6,6 +6,11 @@ author:             Mirko Westermeier
 maintainer:         mirko@westermeier.de
 build-type:         Simple
 
+data-dir: test/data
+data-files:
+  *.in
+  *.out
+
 common basics
   default-language: GHC2021
   ghc-options:      -Wall
@@ -13,6 +18,16 @@ common basics
 
 library
   import:           basics
-  exposed-modules:  Day01SecretEntrance
+  exposed-modules:  Days
+                  , Day01SecretEntrance
                   , Day02GiftShop
   hs-source-dirs:   lib
+
+test-suite spec
+  import:           basics
+  type:             exitcode-stdio-1.0
+  main-is:          Main.hs
+  build-depends:    aoc2025
+                  , hspec
+  other-modules:    Paths_aoc2025
+  hs-source-dirs:   test

@@ -1,5 +1,6 @@
 module Day01SecretEntrance where
 
+import Days
 import Data.Char
 import Data.Default
 import Control.Monad
@@ -53,8 +54,11 @@ run2 = length . flip evalState def . execWriterT . mapM_ dial . getMoves
         zero    = do  d <- S.get
                       when (d == Dial 0) $ tell one
 
-solve_01_1 :: String -> Int
-solve_01_1 = run1 . read
+solve_1 :: String -> Int
+solve_1 = run1 . read
 
-solve_01_2 :: String -> Int
-solve_01_2 = run2 . read
+solve_2 :: String -> Int
+solve_2 = run2 . read
+
+day :: Day
+day = Day 1 "Secret Entrance" (show.solve_1) (show.solve_2)
