@@ -8,9 +8,8 @@ build-type:             Simple
 
 common basics
     default-language:   GHC2021
-    default-extensions: MultilineStrings
     ghc-options:        -Wall
-    build-depends:      base
+    build-depends:      base, data-default, ghc, mtl
 
 library
     import:             basics

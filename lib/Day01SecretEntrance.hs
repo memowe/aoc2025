@@ -1,21 +1,60 @@
 module Day01SecretEntrance where
 
-exampleInput :: String
-exampleInput = """
-L68
-L30
-R48
-L5
-R60
-L55
-L1
-L99
-R14
-L82
-"""
+import Data.Char
+import Data.Default
+import Control.Monad
+import Control.Monad.State.Lazy as S
+import Control.Monad.Writer.Lazy
+import Text.ParserCombinators.ReadP
 
-solve_1 :: IO ()
-solve_1 = putStrLn "solve_1"
+inEnum :: Enum a => (Int -> Int) -> a -> a
+inEnum f = toEnum . f . fromEnum
 
-solve_2 :: IO ()
-solve_2 = putStrLn "solve_2"
+type    Move  = Int
+newtype Moves = Moves {getMoves :: [Move]} deriving Show
+
+instance Read Moves where
+  readsPrec _ = readP_to_S moves
+    where moves = Moves <$> (left +++ right) `sepBy` char '\n'
+          left  = char 'L' >> negate <$>  size
+          right = char 'R' >>             size
+          size  = read <$> munch1 isDigit
+
+newtype Dial = Dial {getDial :: Int} deriving (Show, Eq)
+
+instance Enum Dial where
+  toEnum    = Dial . (`mod` 100)
+  fromEnum  = getDial
+
+instance Default Dial where
+  def = Dial 50
+
+turn :: Move -> Dial -> Dial
+turn n = inEnum (+ n)
+
+type Counter = [()]
+one :: Counter
+one = [()]
+
+run1 :: Moves -> Int
+run1 = length . flip evalState def . execWriterT . mapM_ dial . getMoves
+  where dial m = do newDial <- turn m <$> S.get
+                    when (newDial == Dial 0) $ tell one
+                    S.put newDial
+
+run2 :: Moves -> Int
+run2 = length . flip evalState def . execWriterT . mapM_ dial . getMoves
+  where dial 0  = return ()
+        dial n  = do  n' <- if n > 0
+                              then modify (inEnum succ) >> return (n - 1)
+                              else modify (inEnum pred) >> return (n + 1)
+                      zero
+                      dial n'
+        zero    = do  d <- S.get
+                      when (d == Dial 0) $ tell one
+
+solve_1 :: String -> IO ()
+solve_1 = print . run1 . read
+
+solve_2 :: String -> IO ()
+solve_2 = print . run2 . read
