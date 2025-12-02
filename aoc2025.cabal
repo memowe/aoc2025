@@ -14,4 +14,5 @@ common basics
 library
   import:           basics
   exposed-modules:  Day01SecretEntrance
+                  , Day02GiftShop
   hs-source-dirs:   lib
