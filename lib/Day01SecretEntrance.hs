@@ -53,8 +53,8 @@ run2 = length . flip evalState def . execWriterT . mapM_ dial . getMoves
         zero    = do  d <- S.get
                       when (d == Dial 0) $ tell one
 
-solve_1 :: String -> IO ()
-solve_1 = print . run1 . read
+solve_01_1 :: String -> IO ()
+solve_01_1 = print . run1 . read
 
-solve_2 :: String -> IO ()
-solve_2 = print . run2 . read
+solve_01_2 :: String -> IO ()
+solve_01_2 = print . run2 . read
