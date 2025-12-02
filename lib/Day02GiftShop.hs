@@ -17,13 +17,17 @@ instance Read Ranges where
 match :: ReadP a -> String -> Bool
 match p = any (null . snd) . readP_to_S p
 
-multiPartParser :: ReadP ()
-multiPartParser = many1 get >>= void . string
+multiPartParser1, multiPartParser2 :: ReadP ()
+multiPartParser1 = many1 get >>= void . string
+multiPartParser2 = many1 get >>= void . many1 . string
 
-invalid :: ID -> Bool
-invalid = match multiPartParser . show
+invalid1, invalid2 :: ID -> Bool
+invalid1 = match multiPartParser1 . show
+invalid2 = match multiPartParser2 . show
 
-solve_02_1 :: String -> Int
-solve_02_1 input =
-  let cands = concat [[f..t] | (f, t) <- getRanges (read input)]
-  in  sum $ filter invalid cands
+candidates :: String -> [ID]
+candidates input = concat [[f..t] | (f, t) <- getRanges (read input)]
+
+solve_02_1, solve_02_2 :: String -> Int
+solve_02_1 = sum . filter invalid1 . candidates
+solve_02_2 = sum . filter invalid2 . candidates
