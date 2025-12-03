@@ -21,6 +21,7 @@ library
   exposed-modules:  Days
                   , Day01SecretEntrance
                   , Day02GiftShop
+                  , Day03Lobby
   hs-source-dirs:   lib
 
 test-suite spec
