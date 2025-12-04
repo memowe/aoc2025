@@ -14,7 +14,7 @@ data-files:
 common basics
   default-language: GHC2021
   ghc-options:      -Wall
-  build-depends:    base, data-default, ghc, mtl
+  build-depends:    base, containers, data-default, ghc, mtl
 
 library
   import:           basics
@@ -22,6 +22,7 @@ library
                   , Day01SecretEntrance
                   , Day02GiftShop
                   , Day03Lobby
+                  , Day04PrintingDepartment
   hs-source-dirs:   lib
 
 test-suite spec
