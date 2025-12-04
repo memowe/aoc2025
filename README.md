@@ -11,7 +11,7 @@ $ cabal repl
 1**3
 ```
 
-[Tests](test) check correct behaviour on the example input given by the website, not the full puzzle input (as [requested](https://adventofcode.com/2025/about) by the author).
+[Tests](test/Main.hs) check correct behaviour on the [example input](test/data) given by the website, not the full puzzle input (as [requested](https://adventofcode.com/2025/about) by the author).
 
 ## Author and license
 
