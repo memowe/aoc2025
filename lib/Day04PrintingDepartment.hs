@@ -1,5 +1,7 @@
 module Day04PrintingDepartment where
 
+import Days
+import Data.Function
 import qualified Data.Set as S
 import Data.Set (Set, member)
 import qualified Data.Map as M
@@ -9,7 +11,7 @@ import Text.ParserCombinators.ReadP
 type    X         = Int
 type    Y         = Int
 type    Coord     = (X, Y)
-newtype Rolls     = Rolls (Set Coord) deriving Show
+newtype Rolls     = Rolls {getCoords :: Set Coord} deriving (Eq, Show)
 type    Count     = Int
 type    Neighbors = Map Coord Count
 
@@ -21,6 +23,9 @@ instance Read Rolls where
           roll  = True  <$ char '@'
           mpty  = False <$ char '.'
 
+rollMinus :: Rolls -> Rolls -> Count
+rollMinus = (-) `on` length . getCoords
+
 countNeighbors :: Rolls -> Neighbors
 countNeighbors (Rolls cs) = tupelMap (S.map neighbor1 cs)
   where neighbor1 = (,) <*> sum . map (fromEnum . (`member` cs)) . neighbors
@@ -30,8 +35,24 @@ countNeighbors (Rolls cs) = tupelMap (S.map neighbor1 cs)
                                       , (x', y') /= (x, y)
                                       ]
 
-removable :: Count -> Bool
-removable = (< 4)
+remove :: Rolls -> Rolls
+remove = Rolls . M.keysSet . M.filter (>= 4) . countNeighbors
 
 solve_1 :: String -> Int
-solve_1 = length . M.filter removable . countNeighbors . read
+solve_1 input =
+  let rs  = read input
+      rs' = remove rs
+  in  rs `rollMinus` rs'
+
+fixpoint :: Eq a => (a -> a) -> a -> a
+fixpoint f = fst . head . dropWhile (uncurry (/=)) . pairs
+  where pairs = (zip <*> tail) . iterate f
+
+solve_2 :: String -> Int
+solve_2 input =
+  let rs  = read input :: Rolls
+      rs' = fixpoint remove rs
+  in  rs `rollMinus` rs'
+
+day :: Day
+day = Day 4 "Printing Department" (show.solve_1) (show.solve_2)
