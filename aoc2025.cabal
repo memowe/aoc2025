@@ -23,6 +23,7 @@ library
                   , Day02GiftShop
                   , Day03Lobby
                   , Day04PrintingDepartment
+                  , Day05Cafeteria
   hs-source-dirs:   lib
 
 test-suite spec
