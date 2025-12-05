@@ -19,11 +19,9 @@ instance Read Inventory where
           nat   = read <$> munch1 isDigit
           nl    = char '\n'
 
-contains :: Range -> ID -> Bool
-contains r i = fromR r <= i && i <= toR r
-
 anyContains :: [Range] -> ID -> Bool
-anyContains rs i = any (`contains` i) rs
+anyContains rs i = any contains rs
+  where contains r = fromR r <= i && i <= toR r
 
 solve_1 :: String -> Int
 solve_1 input =
@@ -48,12 +46,12 @@ boundaries = sort . concatMap rb
 countFresh :: [Range] -> Int
 countFresh = step (0, Nothing) . boundaries
   where step :: (Int, Maybe ID) -> [Boundary] -> Int
-        step (0, _) []                      = 0
-        step (0, Nothing) (From i : bs)     = step (1, Just i) bs
-        step (1, Just i) (To j : bs)        = (j-i+1) + step (0, Nothing) bs
-        step (depth, Just i) (To _ : bs)    = step (depth-1, Just i) bs
-        step (depth, Just i) (From _ : bs)  = step (depth+1, Just i) bs
-        step _ _ = error "impossible state"
+        step (0,      _)        []            = 0
+        step (0,      Nothing)  (From i : bs) = step (1, Just i) bs
+        step (1,      Just i)   (To j : bs)   = (j-i+1) + step (0, Nothing) bs
+        step (depth,  Just i)   (To _ : bs)   = step (depth-1, Just i) bs
+        step (depth,  Just i)   (From _ : bs) = step (depth+1, Just i) bs
+        step _                  _             = error "impossible state"
 
 solve_2 :: String -> Int
 solve_2 = countFresh . freshRanges . read
