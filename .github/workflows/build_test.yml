@@ -10,6 +10,6 @@ jobs:
       - uses: haskell-actions/setup@v2
         with:
           ghc-version: '9.6.7'
-      - run: cabal build --only-dependencies
-      - run: cabal build
+      - run: cabal build --enable-tests --only-dependencies
+      - run: cabal build --enable-tests
       - run: cabal test
