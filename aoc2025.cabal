@@ -24,6 +24,7 @@ library
                   , Day03Lobby
                   , Day04PrintingDepartment
                   , Day05Cafeteria
+                  , Day06TrashCompactor
   hs-source-dirs:   lib
 
 test-suite spec
