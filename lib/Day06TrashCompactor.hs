@@ -32,8 +32,27 @@ solve (Problem Mult ns) = product ns
 solve_1 :: String -> Int
 solve_1 = sum . map solve . getProblems . read
 
+newtype ColProblems = CPs {getColProblems :: [Problem]} deriving Show
+
+instance Read ColProblems where
+  readsPrec _ = readP_to_S problems . preprocess
+    where preprocess  = unlines . transpose . lines
+          problems    = CPs <$> problem `sepBy` problemSep <* skipSpaces <* eof
+          problemSep  = void $ between (char '\n') (char '\n') sp
+          problem     = do  (n, op) <- firstRow
+                            ns      <- spaced number `sepBy` char '\n'
+                            return $ Problem op (n:ns)
+          firstRow    = do  n <- spaced number
+                            op <- (add +++ mult) <* char '\n'
+                            return (n, op)
+          number      = read  <$> munch1 isDigit
+          add         = Add   <$ char '+'
+          mult        = Mult  <$ char '*'
+          spaced      = between sp sp
+          sp          = void   $ munch (==' ')
+
 solve_2 :: String -> Int
-solve_2 = undefined
+solve_2 = sum . map solve . getColProblems . read
 
 day :: Day
 day = Day 6 "Trash Compactor" (show.solve_1) (show.solve_2)
