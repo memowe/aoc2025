@@ -13,6 +13,7 @@ import qualified Day03Lobby               as D03
 import qualified Day04PrintingDepartment  as D04
 import qualified Day05Cafeteria           as D05
 import qualified Day06TrashCompactor      as D06
+import qualified Day07Laboratories        as D07
 
 data DayTestData = DTD  { dayData   :: Day
                         , input1    :: String
@@ -34,6 +35,7 @@ addNL s = if last s == '\n' then s else s ++ "\n"
 
 days :: [Day]
 days =  [ D01.day, D02.day, D03.day, D04.day, D05.day, D06.day
+        , D07.day
         ]
 
 main :: IO ()
