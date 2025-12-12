@@ -1,4 +1,4 @@
-module Main where
+module ExampleSpec where
 
 import Test.Hspec
 import Text.Printf
@@ -38,8 +38,8 @@ days =  [ D01.day, D02.day, D03.day, D04.day, D05.day, D06.day
         , D07.day
         ]
 
-main :: IO ()
-main = hspec $ describe "Example solution tests" $ forM_ days $ \d -> do
+spec :: Spec
+spec = describe "Example solution tests" $ forM_ days $ \d -> do
 
   describe (printf "Day %02d: %s" (day d) (name d)) $ do
     td <- runIO $ dayTestData d

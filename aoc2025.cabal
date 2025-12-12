@@ -34,10 +34,12 @@ library
   hs-source-dirs:   lib
 
 test-suite spec
-  import:           basics
-  type:             exitcode-stdio-1.0
-  main-is:          Main.hs
-  build-depends:    aoc2025
-                  , hspec
-  other-modules:    Paths_aoc2025
-  hs-source-dirs:   test
+  import:             basics
+  type:               exitcode-stdio-1.0
+  main-is:            run-all-tests.hs
+  build-depends:      aoc2025
+                    , hspec
+  build-tool-depends: hspec-discover:hspec-discover
+  other-modules:      Paths_aoc2025
+                    , ExampleSpec
+  hs-source-dirs:     test
