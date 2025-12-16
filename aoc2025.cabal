@@ -31,6 +31,7 @@ library
                   , Day05Cafeteria
                   , Day06TrashCompactor
                   , Day07Laboratories
+                  , Util.UnionFind
   hs-source-dirs:   lib
 
 test-suite spec
@@ -39,7 +40,9 @@ test-suite spec
   main-is:            run-all-tests.hs
   build-depends:      aoc2025
                     , hspec
+                    , QuickCheck
   build-tool-depends: hspec-discover:hspec-discover
   other-modules:      Paths_aoc2025
                     , ExampleSpec
+                    , UtilSpec
   hs-source-dirs:     test
