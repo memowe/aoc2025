@@ -31,6 +31,7 @@ library
                   , Day05Cafeteria
                   , Day06TrashCompactor
                   , Day07Laboratories
+                  , Day08Playground
                   , Util.UnionFind
   hs-source-dirs:   lib
 
