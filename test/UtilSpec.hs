@@ -41,7 +41,7 @@ genUF3 = do uf  <- genUF `suchThat` ((>= 3) . M.size)
             return (uf, x, y, z)
 
 runUF :: UnionFind Int -> State (UnionFind Int) a -> a
-runUF = runUnionFind
+runUF = flip evalState
 
 infixr 1 ===>
 (===>) :: Bool -> Bool -> Bool

@@ -13,11 +13,11 @@ type UnionFind a = Map a a
 empty :: UnionFind a
 empty = M.empty
 
-include :: Ord a => a -> State (UnionFind a) ()
+include :: (MonadState (UnionFind a) m, Ord a) => a -> m ()
 include x = do  unlessM (gets (x `M.member`)) $ do
                   modify $ M.insert x x
 
-find :: Ord a => a -> State (UnionFind a) a
+find :: (MonadState (UnionFind a) m, Ord a) => a -> m a
 find x = do p <- gets (! x)
             if p == x
               then return x
@@ -25,29 +25,26 @@ find x = do p <- gets (! x)
                         modify $ M.insert x pp
                         return pp
 
-union :: Ord a => a -> a -> State (UnionFind a) ()
+union :: (MonadState (UnionFind a) m, Ord a) => a -> a -> m ()
 union x y = do  px <- find x
                 py <- find y
                 unless (px == py) $ do
                   modify $ M.insert py px
 
-connected :: Ord a => a -> a -> State (UnionFind a) Bool
+connected :: (MonadState (UnionFind a) m, Ord a) => a -> a -> m Bool
 connected x y = do  px <- find x
                     py <- find y
                     return $ px == py
 
-member :: Ord a => a -> State (UnionFind a) Bool
+member :: (MonadState (UnionFind a) m, Ord a) => a -> m Bool
 member = gets . M.member
 
-runUnionFind :: UnionFind a -> State (UnionFind a) r -> r
-runUnionFind = flip evalState
-
-components :: Ord a => State (UnionFind a) (Map a (Set a))
+components :: (MonadState (UnionFind a) m, Ord a) => m (Map a (Set a))
 components = do elems <- gets M.keys
                 M.fromListWith S.union <$> mapM connect elems
   where connect e = (, S.singleton e) <$> find e
 
-showUnionFind :: (Ord a, Show a) => State (UnionFind a) String
+showUnionFind :: (MonadState (UnionFind a) m, Ord a, Show a) => m String
 showUnionFind = do
   rm <- M.toList . M.map S.toList <$> components
   let ls = map (\(repr, xs) -> show repr ++ ": " ++ show xs) rm
